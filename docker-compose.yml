@@ -1,0 +1,18 @@
+services:
+  service1:
+    build: ./service1
+    environment:
+      - SERVICE1PORT=8199
+      - SERVICE2PORT=8200
+      - STORAGEPORT=8201
+    networks:
+      - backend
+    ports:
+      - "8199:8199"
+
+# Here we create a named network, that all the components
+# must be added to for them to be able to communicate through
+# exposed ports.
+
+networks:
+  backend:
