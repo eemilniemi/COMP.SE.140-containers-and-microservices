@@ -1,0 +1,29 @@
+import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpExchange;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.io.IOException;
+
+
+
+public class Service2 {
+    public static void main (String[] args) throws IOException {
+        int port = 8200; //TODO process.env
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+
+
+        server.createContext("/status", exchange -> {
+            System.out.println("STATUS");
+            String response = "testi";
+            exchange.getResponseHeaders().set("ContentType", "application/json");
+            exchange.sendResponseHeaders(200, response.getBytes().length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes());
+            }
+        });
+
+        server.setExecutor(null);
+        System.out.println("Server started at http://localhost:" + port);
+        server.start();
+    }
+}
