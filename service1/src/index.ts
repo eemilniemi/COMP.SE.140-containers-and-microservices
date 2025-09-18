@@ -38,6 +38,9 @@ const saveLog = async () => {
 app.get("/status", async (req, res) => {
   try {
     const log = await saveLog();
+    await axios.post(`http://storage:${STORAGEPORT}/log`, log, {
+      headers: { "Content-Type": "text/plain" },
+    });
 
     const response = await axios.get(`http://service2:${SERVICE2PORT}/status`);
 
@@ -52,8 +55,20 @@ app.get("/status", async (req, res) => {
 });
 
 app.get("/log", async (req, res) => {
-  console.log("LOG");
-  const response = await axios.get(`http://storage:${STORAGEPORT}/log`);
+  try {
+    const response = await axios.get(`http://storage:${STORAGEPORT}/log`);
+
+    res.setHeader("Content-Type", "text/plain");
+    res.send(response.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      res
+        .status(error.response?.status || 500)
+        .send(error.response?.data || error.message);
+    } else {
+      res.status(500).send("Internal server error");
+    }
+  }
 });
 
 app.listen(SERVICE1PORT, () => {
