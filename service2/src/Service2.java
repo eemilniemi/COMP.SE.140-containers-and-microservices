@@ -16,13 +16,21 @@ public class Service2 {
 
 
         server.createContext("/status", exchange -> {
-            LogWriter.saveLog();
+            try {
+                String log = LogWriter.saveLog();
 
-            String response = "testi";
-            exchange.getResponseHeaders().set("Content-Type", "application/json");
-            exchange.sendResponseHeaders(200, response.getBytes().length);
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(response.getBytes());
+                byte[] responseBytes = log.getBytes();
+
+                exchange.getResponseHeaders().set("Content-Type", "text/plain");
+                exchange.sendResponseHeaders(200, responseBytes.length);
+
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(responseBytes);
+                }
+            } catch (IOException e) {
+                exchange.sendResponseHeaders(500, 0);
+                exchange.close();
+                System.err.println("Error handling /status request: " + e.getMessage());
             }
         });
 

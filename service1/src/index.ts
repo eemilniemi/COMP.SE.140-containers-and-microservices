@@ -29,15 +29,26 @@ const saveLog = async () => {
     const log = `Timestamp1: uptime ${uptimeHours} hours, free disk in root: ${freeMB} MBytes\n`;
     appendFileSync(logPath, log);
     console.log("Log written: ", log);
+    return log;
   } catch (err) {
     console.error("Failed to write log: ", err);
   }
 };
 
 app.get("/status", async (req, res) => {
-  await saveLog();
+  try {
+    const log = await saveLog();
 
-  const response = await axios.get(`http://service2:${SERVICE2PORT}/status`);
+    const response = await axios.get(`http://service2:${SERVICE2PORT}/status`);
+
+    const combined = `${log}${response.data}`;
+
+    res.setHeader("Content-Type", "text/plain");
+    res.send(combined);
+  } catch (error) {
+    console.error("Error in /status:", error);
+    res.status(500).send("Internal server error");
+  }
 });
 
 app.get("/log", async (req, res) => {
