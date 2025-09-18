@@ -3,6 +3,9 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.io.IOException;
+import java.io.File;
+import java.lang.management.ManagementFactory;
+
 
 
 
@@ -13,9 +16,10 @@ public class Service2 {
 
 
         server.createContext("/status", exchange -> {
-            System.out.println("STATUS");
+            LogWriter.saveLog();
+
             String response = "testi";
-            exchange.getResponseHeaders().set("ContentType", "application/json");
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(200, response.getBytes().length);
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(response.getBytes());

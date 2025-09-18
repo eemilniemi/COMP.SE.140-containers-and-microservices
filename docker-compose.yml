@@ -9,14 +9,21 @@ services:
       - backend
     ports:
       - "8199:8199"
+    volumes:
+      - vStorage:/status/data
 
   service2:
     build: ./service2
     networks:
       - backend
+    volumes:
+      - vStorage:/status/data
 # Here we create a named network, that all the components
 # must be added to for them to be able to communicate through
 # exposed ports.
 
 networks:
   backend:
+
+volumes:
+  vStorage: {}
