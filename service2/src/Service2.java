@@ -16,8 +16,9 @@ import java.lang.management.ManagementFactory;
 
 public class Service2 {
     public static void main (String[] args) throws IOException {
-        int port = 8200; //TODO process.env
-        int storagePort = 8201;
+        int port = Integer.parseInt(System.getenv().getOrDefault("SERVICE2PORT", "8200"));
+        int storagePort = Integer.parseInt(System.getenv().getOrDefault("STORAGEPORT", "8201"));
+
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         HttpClient client = HttpClient.newHttpClient();
