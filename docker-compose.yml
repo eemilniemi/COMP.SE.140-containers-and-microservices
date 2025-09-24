@@ -11,6 +11,9 @@ services:
       - "8199:8199"
     volumes:
       - .:/vstorage
+    depends_on:
+      service2:
+        condition: service_started
 
   service2:
     build: ./service2
@@ -22,6 +25,9 @@ services:
       - backend
     volumes:
       - .:/vstorage
+    depends_on:
+      storage:
+        condition: service_healthy
 
   storage:
     build: ./storage
@@ -31,6 +37,11 @@ services:
       - backend
     volumes:
       - storage-data:/status/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8201/log"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
 # Here we create a named network, that all the components
 # must be added to for them to be able to communicate through
