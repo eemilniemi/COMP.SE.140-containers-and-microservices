@@ -11,8 +11,8 @@ const STORAGEPORT = process.env.STORAGEPORT;
 const app = express();
 
 const saveLog = async () => {
-  const dir = "/status/data";
-  const file = "log.json";
+  const dir = "/vstorage";
+  const file = "vstorage";
 
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });

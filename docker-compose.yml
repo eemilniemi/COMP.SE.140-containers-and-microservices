@@ -10,7 +10,7 @@ services:
     ports:
       - "8199:8199"
     volumes:
-      - vStorage:/status/data
+      - .:/vstorage
 
   service2:
     build: ./service2
@@ -21,7 +21,7 @@ services:
     networks:
       - backend
     volumes:
-      - vStorage:/status/data
+      - .:/vstorage
 
   storage:
     build: ./storage

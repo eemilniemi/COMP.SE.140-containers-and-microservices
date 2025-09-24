@@ -6,8 +6,8 @@ import java.nio.file.StandardOpenOption;
 public class LogWriter {
 
     public static String saveLog() throws IOException {
-        String dir = "/status/data";
-        String file = "log.json";
+        String dir = "/vstorage";
+        String file = "vstorage";
 
         Path dirPath = Path.of(dir);
         Path filePath = dirPath.resolve(file);
