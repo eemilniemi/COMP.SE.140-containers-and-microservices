@@ -1,0 +1,12 @@
+$ docker container ls
+CONTAINER ID   IMAGE                                             COMMAND                  CREATED              STATUS          PORTS                    NAMES
+22b10276b35e   compse140-containers-and-microservices-service2   "/__cacert_entrypoin…"   About a minute ago   Up 59 seconds                            compse140-containers-and-microservices-service2-1
+4c99aa832388   compse140-containers-and-microservices-storage    "docker-entrypoint.s…"   6 days ago           Up 59 seconds                            compse140-containers-and-microservices-storage-1
+4206681e2bed   compse140-containers-and-microservices-service1   "docker-entrypoint.s…"   6 days ago           Up 59 seconds   0.0.0.0:8199->8199/tcp   compse140-containers-and-microservices-service1-1
+
+$ docker network ls
+NETWORK ID     NAME                                             DRIVER    SCOPE
+c8c3f70bd5da   bridge                                           bridge    local
+49f442c08cd1   compse140-containers-and-microservices_backend   bridge    local
+c5c2cd882d57   host                                             host      local
+26aa3792a9e2   none                                             null      local
